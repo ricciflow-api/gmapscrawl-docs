@@ -1,11 +1,27 @@
 ---
 title: "Receive webhook notifications"
-description: "Verify signatures and retrieve results after state-change notifications."
+description: "Add an endpoint URL, verify signatures, and receive scrape and export updates."
 ---
 
 Webhooks deliver bounded state-change notifications, not scraped rows or signed download URLs. Fetch results through the authenticated API after receiving an event.
 
-New keys created on the [API keys page](https://gmapscrawl.com/dashboard/api-keys) are live keys and include `webhooks:manage` automatically. Existing keys must have that permission. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
+## Create an endpoint in the dashboard
+
+1. Open [Webhooks](https://gmapscrawl.com/dashboard/webhooks) in your API dashboard.
+2. Enter your public HTTPS **Endpoint URL** and select **Create endpoint**.
+3. Copy the signing secret into your receiver's secret store, then select **I stored the secret safely**. The full secret is shown only once.
+
+New dashboard endpoints subscribe to all six supported events automatically. Setup only asks for the URL; no description or event selection is needed.
+
+Expand **Endpoint settings** to find the endpoint ID. Bind a scrape by supplying this ID as `input.webhook_endpoint_id`. Creating an endpoint does not attach it to every job.
+
+Use **Test** on an active endpoint to send a test event, or **Pause** to stop notifications. Use **Activate** to enable it again. Check **Recent delivery attempts** and select **Refresh** to see delivery results.
+
+**Endpoint settings** also lets you update the URL, rotate the signing secret, replace a compromised secret, or delete the endpoint. Updating the URL preserves existing event subscriptions and descriptions. Deleting an endpoint terminates pending deliveries.
+
+## Create or customize an endpoint through the API
+
+Use the API when you need a description or a specific subset of events. New keys created on the [API keys page](https://gmapscrawl.com/dashboard/api-keys) are live keys and include `webhooks:manage` automatically. Existing keys must have that permission. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
 
 ```json
 {
