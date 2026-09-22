@@ -5,7 +5,7 @@ description: "Verify signatures and retrieve results after state-change notifica
 
 Webhooks deliver bounded state-change notifications, not scraped rows or signed download URLs. Fetch results through the authenticated API after receiving an event.
 
-Use a live API key with `webhooks:manage`. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
+New keys created on the [API keys page](https://gmapscrawl.com/dashboard/api-keys) are live keys and include `webhooks:manage` automatically. Existing keys must have that permission. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
 
 ```json
 {

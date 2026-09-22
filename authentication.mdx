@@ -1,9 +1,21 @@
 ---
-title: "Authentication and scopes"
-description: "Use API keys safely and grant the scopes your workflow needs."
+title: "API keys and authentication"
+description: "Create an API key, authenticate requests, and manage access."
 ---
 
-Send one credential header on every API request:
+## Create an API key
+
+1. Open [API keys](https://gmapscrawl.com/dashboard/api-keys) in your API dashboard.
+2. Enter a **Key name**, such as `My integration`, and select **Create API key**.
+3. Copy the key into your server-side secret store, then select **I stored the key safely**. The full key is shown only once.
+
+New dashboard keys use the **live** environment and include all the workflow permissions listed below. There are no environment, permission, IP restriction, or expiry controls in the creation form. New keys have no configured IP restrictions or expiry date.
+
+<Note>Live requests use your API allowance and require an active API entitlement and an available capability. Creating a live key does not enable unavailable operations. Check [availability](/concepts/availability) before submitting work.</Note>
+
+## Authenticate requests
+
+Set `GMSCRAPER_API_KEY` in your application's environment or secret manager. Send one credential header on every API request:
 
 ```bash
 curl --fail-with-body 'https://gmapscrawl.com/api/v1/scrapes/REPLACE_WITH_JOB_ID' \
@@ -11,6 +23,10 @@ curl --fail-with-body 'https://gmapscrawl.com/api/v1/scrapes/REPLACE_WITH_JOB_ID
 ```
 
 REST and MCP accept `API-KEY` or `Authorization: Bearer`. MCP also accepts `GMS-API-KEY` and `X-API-KEY`. Conflicting credentials are rejected. Keep keys in a server-side secret store and never put them in URLs or browser frontend code.
+
+## Included permissions
+
+New dashboard keys include these permissions automatically. Existing keys may have narrower permissions.
 
 | Workflow | Required scope |
 | --- | --- |
@@ -21,8 +37,13 @@ REST and MCP accept `API-KEY` or `Authorization: Bearer`. MCP also accepts `GMS-
 | Inspect an export | `exports:read` |
 | Manage webhooks | `webhooks:manage` |
 
-Test keys produce fixtures with simulated usage and do not invoke live scraping. Live keys require an active API entitlement and the relevant capabilities; an Online subscription alone is not proof of API access. Keys can also be limited by expiry, revocation, and configured network restrictions.
+## Manage keys
+
+The key list shows the name, masked key prefix, last use, and actions. Existing test keys carry a **Test** label, and keys with an expiry show that date beneath their name.
+
+- **Rotate** creates a replacement key and displays it once. Update your integration before the previous key expires; the overlap lasts at most 24 hours.
+- **Revoke** disables a key immediately. Enter a reason of 10–500 characters when prompted.
+
+Existing keys retain their permissions, expiry, and network restrictions. Existing test keys produce simulated fixtures and do not invoke live scraping; the simplified dashboard does not create new test keys. An Online subscription alone is not proof of API access.
 
 Webhooks require a live key. Test keys cannot create, bind, test, or deliver customer webhooks.
-
-Manage access in the [G Maps Crawl dashboard](https://gmapscrawl.com/dashboard).

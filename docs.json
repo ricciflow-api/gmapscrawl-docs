@@ -37,8 +37,8 @@
             "group": "Get started",
             "pages": [
               "introduction",
-              "quickstart",
               "authentication",
+              "quickstart",
               "concepts/availability"
             ]
           },

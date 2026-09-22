@@ -81,6 +81,6 @@ Call `search_google_maps` with flat arguments (do not wrap them in REST's `opera
 
 Use a fresh mutation identifier in real work, preserving it for retries. Continue with `get_scrape_job` and then `get_scrape_results` using the returned job ID.
 
-<Note>Use a test key to validate setup. Its results are simulated. A tool listing does not establish live access; check [availability](/concepts/availability).</Note>
+<Note>Use a key from the [API keys page](https://gmapscrawl.com/dashboard/api-keys); enter a name to create one, then copy it into your secret environment. New keys are live keys and requests use your API allowance. If you already have a test key, its results are simulated. A tool listing does not establish live access; check [availability](/concepts/availability).</Note>
 
 Example prompt: “Using my configured G Maps Crawl connection, request only page 1 for coffee shops in Seattle. Follow the job within two minutes, return up to 25 stored records, and report simulation and completeness. Do not expand the search.”
