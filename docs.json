@@ -4,9 +4,9 @@
   "name": "G Maps Crawl",
   "description": "G Maps Crawl API, MCP, and agent skill documentation. Search businesses, follow jobs, retrieve results, and export data.",
   "colors": {
-    "primary": "#2563EB",
-    "light": "#60A5FA",
-    "dark": "#1D4ED8"
+    "primary": "#027B8B",
+    "light": "#34ACBC",
+    "dark": "#027B8B"
   },
   "favicon": "/favicon.svg",
   "logo": {
@@ -123,6 +123,12 @@
     "socials": {
       "github": "https://github.com/ricciflow-api/gmapscrawl-docs",
       "website": "https://gmapscrawl.com"
+    }
+  },
+  "background": {
+    "color": {
+      "light": "#F8F8F4",
+      "dark": "#0C0D0D"
     }
   }
 }
