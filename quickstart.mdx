@@ -1,0 +1,51 @@
+---
+title: "Make your first request"
+description: "Submit one search, follow its job, and retrieve normalized records."
+---
+
+You need an API key with `scrapes:write`, `scrapes:read`, and `datasets:read`. Configure `GMSCRAPER_API_KEY` in your local environment or secret manager. Use a test key for this walkthrough; its data is simulated.
+
+## 1. Submit a search
+
+Generate a fresh identifier for each intended search. Keep the same identifier and request body if you retry this search.
+
+```bash
+REQUEST_ID="$(python3 -c 'import uuid; print(uuid.uuid4())')"
+curl --fail-with-body 'https://gmapscrawl.com/api/v1/scrapes' \
+  -H "API-KEY: $GMSCRAPER_API_KEY" \
+  -H "Idempotency-Key: $REQUEST_ID" \
+  -H 'Content-Type: application/json' \
+  -H 'Prefer: wait=10' \
+  --data '{"operation":"places.search","input":{"q":"coffee shops in Seattle","page":1,"hl":"en","gl":"us","extra":false}}'
+```
+
+A live submission normally returns `202`; a test fixture returns `200`. The response contains a job under `data`, not the final list of businesses:
+
+```json
+{"data":{"id":"job_01K4GMAPSEXAMPLE0000000000","operation":"places.search","status":"queued","created_at":"2026-09-01T10:00:00.000Z","progress":{"completed_queries":0,"total_queries":1},"links":{"self":"/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000","results":"/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000/results"}},"request_id":"req_01K4GMAPSEXAMPLE0000000000","schema_version":"2026-09-22"}
+```
+
+This is an illustrative contract example. Copy the actual `data.id` returned by your request.
+
+## 2. Follow the job
+
+```bash
+JOB_ID='REPLACE_WITH_RETURNED_JOB_ID'
+curl --fail-with-body "https://gmapscrawl.com/api/v1/scrapes/$JOB_ID" \
+  -H "API-KEY: $GMSCRAPER_API_KEY"
+```
+
+Poll with bounded backoff and a deadline. Stop at `succeeded`, `partial`, `failed`, or `canceled`. A timeout does not cancel an accepted job. For failures, inspect `error_code`; report `partial` as incomplete.
+
+## 3. Read the results
+
+```bash
+curl --fail-with-body "https://gmapscrawl.com/api/v1/scrapes/$JOB_ID/results?limit=25" \
+  -H "API-KEY: $GMSCRAPER_API_KEY"
+```
+
+Read `data.records`, `data.job_status`, `data.is_complete`, and `data.next_cursor`. Follow the opaque cursor to read more **stored** results. This is different from submitting another Google Maps source page.
+
+Only report the requested job as complete when the results say `is_complete: true`. Label any test response as simulated.
+
+Next: [export results](/guides/exports), [handle errors](/concepts/errors), or [connect MCP](/mcp/connect).

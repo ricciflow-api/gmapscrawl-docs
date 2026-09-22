@@ -1,0 +1,81 @@
+---
+title: "Receive webhook notifications"
+description: "Verify signatures and retrieve results after state-change notifications."
+---
+
+Webhooks deliver bounded state-change notifications, not scraped rows or signed download URLs. Fetch results through the authenticated API after receiving an event.
+
+Use a live API key with `webhooks:manage`. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
+
+```json
+{"url":"https://hooks.example.com/gmaps","event_types":["scrape.completed","scrape.failed","export.ready"],"description":"Production ingestion"}
+```
+
+Store the reveal-once `secret` securely. Bind a scrape by supplying the endpoint ID as `input.webhook_endpoint_id`. Endpoint creation alone does not attach it to every job.
+
+## Event and signature contract
+
+Launch event types are `scrape.started`, `scrape.progress`,
+`scrape.completed`, `scrape.failed`, `scrape.canceled`, and `export.ready`.
+The test route uses the reserved `webhook.test` event.
+
+Each request carries:
+
+- `X-GMS-Timestamp`: Unix seconds used by the signature.
+- `X-GMS-Signature`: `v1=<lowercase hex HMAC-SHA-256>`.
+- `X-GMS-Signature-Version`: `v1`.
+- `X-GMS-Key-Version`: numeric endpoint secret version.
+- `X-GMS-Event-Id`: immutable event UUID.
+- `X-GMS-Sequence`: monotonically increasing resource sequence.
+- `X-GMS-Delivery-Attempt`: `1` through `7`.
+
+Verify the exact received bytes before parsing JSON:
+
+```text
+expected = hex(HMAC-SHA256(secret, timestamp + "." + rawBody))
+```
+
+Use constant-time comparison, reject stale timestamps according to your replay
+window, and deduplicate by event ID. A `2xx` response acknowledges delivery.
+Receivers must tolerate duplicates and out-of-order progress events.
+
+Example body shape:
+
+```json
+{
+  "id": "11111111-1111-4111-8111-111111111111",
+  "type": "scrape.completed",
+  "event_version": 1,
+  "schema_version": "2026-09-22",
+  "created_at": "2026-09-22T10:00:00.000Z",
+  "organization_id": "22222222-2222-4222-8222-222222222222",
+  "request_id": "req_7240a718b9fb4ae5a257ec0ec5ad39bc",
+  "resource": {
+    "type": "scrape_job",
+    "id": "33333333-3333-4333-8333-333333333333",
+    "sequence": "3"
+  },
+  "data": {
+    "job_id": "job_6efecde29be34f559f26074e5e4f2ee6",
+    "operation": "places.search",
+    "status": "succeeded",
+    "progress": { "completed_queries": 1, "total_queries": 1 },
+    "result_count": 20,
+    "error_class": null,
+    "version": "2026-09-22T10:00:00.000Z",
+    "sequence": 3
+  }
+}
+```
+
+Retries are the initial attempt plus approximately 1 minute, 5 minutes,
+30 minutes, 2 hours, 6 hours, and 24 hours, each with bounded jitter. Repeated
+terminal failures first warn and then disable the endpoint. A target that
+resolves to any non-public address is disabled immediately.
+
+
+## Rotate secrets
+
+Normal rotation uses `{"mode":"normal"}`. Accept both versions for at least 25 hours. Compromise rotation uses `{"mode":"compromise"}` and revokes the old secret immediately. Honor retry guidance if a delivery is active.
+
+Use the [webhook endpoint reference](/api-reference/create-webhook) for request and response schemas.

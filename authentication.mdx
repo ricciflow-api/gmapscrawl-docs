@@ -1,0 +1,28 @@
+---
+title: "Authentication and scopes"
+description: "Use API keys safely and grant the scopes your workflow needs."
+---
+
+Send one credential header on every API request:
+
+```bash
+curl --fail-with-body 'https://gmapscrawl.com/api/v1/scrapes/REPLACE_WITH_JOB_ID' \
+  -H "API-KEY: $GMSCRAPER_API_KEY"
+```
+
+REST and MCP accept `API-KEY` or `Authorization: Bearer`. MCP also accepts `GMS-API-KEY` and `X-API-KEY`. Conflicting credentials are rejected. Keep keys in a server-side secret store and never put them in URLs or browser frontend code.
+
+| Workflow | Required scope |
+| --- | --- |
+| Submit or cancel a scrape | `scrapes:write` |
+| Read job status | `scrapes:read` |
+| Read stored results | `datasets:read` |
+| Create an export | `exports:write` |
+| Inspect an export | `exports:read` |
+| Manage webhooks | `webhooks:manage` |
+
+Test keys produce fixtures with simulated usage and do not invoke live scraping. Live keys require an active API entitlement and the relevant capabilities; an Online subscription alone is not proof of API access. Keys can also be limited by expiry, revocation, and configured network restrictions.
+
+Webhooks require a live key. Test keys cannot create, bind, test, or deliver customer webhooks.
+
+Manage access in the [G Maps Crawl dashboard](https://gmapscrawl.com/dashboard).

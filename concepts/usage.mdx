@@ -1,0 +1,14 @@
+---
+title: "Usage and rate limits"
+description: "Understand request units, simulated responses, and bounded retries."
+---
+
+For an available live capability, each admitted Search, Reviews, or Photos **source-page request** costs one API request unit, including successful empty pages. Standalone live Reviews and Photos are currently unavailable.
+
+Status reads, stored-result pagination, export creation, and export inspection cost zero request units. Test-key fixtures consume zero units and use simulated usage. Do not equate zero units with unlimited request rate.
+
+Rate and concurrency limits depend on the account's plan. Read response headers and error details rather than hardcoding an assumed universal limit. On `rate_limited` or `concurrency_limited`, respect `Retry-After`, back off, and stop at your deadline.
+
+MCP success metadata includes `gmapscrawl.com/request_id`, `gmapscrawl.com/schema_version`, `gmapscrawl.com/usage_units`, and `gmapscrawl.com/usage_state`. MCP tool errors include `error.retry_after` and `error.usage_state` in their JSON text.
+
+Quota and plan failures need an account or request change; repeated retries do not fix them. [Check availability](/concepts/availability) before planning live usage.

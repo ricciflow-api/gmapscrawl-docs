@@ -1,0 +1,27 @@
+---
+title: "Export your results"
+description: "Create a CSV, JSON, NDJSON, or Excel export and wait for its download URL."
+---
+
+Create an export after the job has a terminal dataset. You need `exports:write` to create and `exports:read` to inspect it.
+
+```bash
+EXPORT_REQUEST_ID="$(python3 -c 'import uuid; print(uuid.uuid4())')"
+curl --fail-with-body "https://gmapscrawl.com/api/v1/scrapes/$JOB_ID/exports" \
+  -H "API-KEY: $GMSCRAPER_API_KEY" \
+  -H "Idempotency-Key: $EXPORT_REQUEST_ID" \
+  -H 'Content-Type: application/json' \
+  --data '{"format":"csv"}'
+```
+
+Supported formats are `csv`, `json`, `ndjson`, and `xlsx`. Save the returned `data.id` and inspect it:
+
+```bash
+EXPORT_ID='REPLACE_WITH_RETURNED_EXPORT_ID'
+curl --fail-with-body "https://gmapscrawl.com/api/v1/exports/$EXPORT_ID" \
+  -H "API-KEY: $GMSCRAPER_API_KEY"
+```
+
+Export states are `queued`, `running`, `ready`, `failed`, and `expired`. Download only when the state is `ready` and `download_url` is present. URLs are short-lived; inspect `expires_at`. Treat the signed URL as a credential and do not publish it or forward your API key to its host.
+
+Export creation and inspection consume zero request units. An export of partial data remains partial; it does not turn an incomplete job into complete coverage.

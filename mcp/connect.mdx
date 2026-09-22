@@ -1,0 +1,47 @@
+---
+title: "Connect the MCP server"
+description: "Configure Streamable HTTP and make your first bounded tool call."
+---
+
+The hosted endpoint is:
+
+```text
+https://gmapscrawl.com/api/mcp
+```
+
+Use a client that supports remote **Streamable HTTP** and custom authentication headers. This is the product data server; it is separate from any documentation-search MCP offered by Mintlify.
+
+## Configure your client
+
+Supply the API key through your client's secret environment. The following is the common configuration shape; environment interpolation differs by client, so replace the placeholder using that client's secret mechanism.
+
+```json
+{"mcpServers":{"gmapscrawl":{"url":"https://gmapscrawl.com/api/mcp","transport":"streamable-http","headers":{"API-KEY":"YOUR_GMAPSCRAWL_API_KEY"}}}}
+```
+
+REST and MCP accept `API-KEY` or a Bearer token. MCP also accepts `GMS-API-KEY` and `X-API-KEY`. Send one credential, not conflicting headers.
+
+## Python SDK
+
+Install the official Python MCP SDK and use the discovery example in [gmapscrawl-mcp](https://github.com/ricciflow-api/gmapscrawl-mcp):
+
+```bash
+python3 -m pip install mcp
+python3 examples/python/list_tools.py
+```
+
+The example reads `GMSCRAPER_API_KEY`, initializes a session, and lists tools without starting work.
+
+## First tool call
+
+Call `search_google_maps` with flat arguments (do not wrap them in REST's `operation` and `input` envelope):
+
+```json
+{"q":"coffee shops in Seattle","page":1,"hl":"en","gl":"us","extra":false,"client_request_id":"gmaps-example-search-20260922"}
+```
+
+Use a fresh mutation identifier in real work, preserving it for retries. Continue with `get_scrape_job` and then `get_scrape_results` using the returned job ID.
+
+<Note>Use a test key to validate setup. Its results are simulated. A tool listing does not establish live access; check [availability](/concepts/availability).</Note>
+
+Example prompt: “Using my configured G Maps Crawl connection, request only page 1 for coffee shops in Seattle. Follow the job within two minutes, return up to 25 stored records, and report simulation and completeness. Do not expand the search.”

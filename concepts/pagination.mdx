@@ -1,0 +1,24 @@
+---
+title: "Source pages and result cursors"
+description: "Separate new scraping work from reading records already stored."
+---
+
+There are two different kinds of pagination:
+
+| Pagination | Input | Effect |
+| --- | --- | --- |
+| Google Maps source page | Search `input.page` | A new source-page operation; normally one admitted request unit |
+| Stored result page | Results `cursor` and `limit` | Reads existing normalized records; zero request units |
+
+Search accepts pages 1–10. It does not automatically traverse them. Review and photo fixture inputs accept a positive signed 32-bit page number; standalone live review and photo jobs are unavailable.
+
+Stored result requests accept `limit` from 1–100 (default 25). Pass `data.next_cursor` unchanged as the next `cursor`; use URL encoding and stop when it is null. Never derive a cursor from record count.
+
+```bash
+curl --fail-with-body --get "https://gmapscrawl.com/api/v1/scrapes/$JOB_ID/results" \
+  -H "API-KEY: $GMSCRAPER_API_KEY" \
+  --data-urlencode 'limit=25' \
+  --data-urlencode "cursor=$NEXT_CURSOR"
+```
+
+An empty source page is still a successful admitted operation. Do not automatically increase geography, keywords, or source pages beyond the user's request.

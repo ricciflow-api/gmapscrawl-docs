@@ -1,0 +1,128 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "G Maps Crawl",
+  "description": "G Maps Crawl API, MCP, and agent skill documentation. Search businesses, follow jobs, retrieve results, and export data.",
+  "colors": {
+    "primary": "#2563EB",
+    "light": "#60A5FA",
+    "dark": "#1D4ED8"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://gmapscrawl.com"
+  },
+  "api": {
+    "openapi": "openapi.json",
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "python",
+        "javascript"
+      ]
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "authentication",
+              "concepts/availability"
+            ]
+          },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "concepts/jobs",
+              "concepts/pagination",
+              "concepts/idempotency",
+              "concepts/usage",
+              "concepts/errors"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "guides/search",
+              "guides/exports",
+              "guides/webhooks"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "REST endpoints",
+            "pages": [
+              "api-reference/create-scrape",
+              "api-reference/get-job",
+              "api-reference/get-results",
+              "api-reference/create-export",
+              "api-reference/get-export",
+              "api-reference/cancel-job",
+              "api-reference/list-webhook-endpoints",
+              "api-reference/create-webhook",
+              "api-reference/update-webhook-endpoint",
+              "api-reference/delete-webhook-endpoint",
+              "api-reference/rotate-webhook-endpoint-secret",
+              "api-reference/test-webhook-endpoint",
+              "api-reference/list-webhook-deliveries"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "MCP & agents",
+        "icon": "robot",
+        "groups": [
+          {
+            "group": "Connect your agent",
+            "pages": [
+              "mcp/connect",
+              "mcp/tools",
+              "mcp/agent-skills"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/ricciflow-api/gmapscrawl-docs"
+      },
+      {
+        "label": "Support",
+        "href": "https://gmapscrawl.com/contact"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://gmapscrawl.com/dashboard"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/ricciflow-api/gmapscrawl-docs",
+      "website": "https://gmapscrawl.com"
+    }
+  }
+}

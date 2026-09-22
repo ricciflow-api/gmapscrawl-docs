@@ -1,0 +1,16 @@
+---
+title: "Idempotency and retries"
+description: "Retry accepted mutations without creating duplicate work."
+---
+
+Every scrape, export, or cancellation mutation needs an identifier of 16–128 printable non-space ASCII characters.
+
+- REST: send it in `Idempotency-Key`.
+- MCP: pass it as `client_request_id` in tool arguments.
+- REST helper: set `client_request_id` in the request document.
+
+Generate one UUID per intended mutation. Reuse the same identifier **and identical arguments** after a retryable transport error. Use a new identifier for a genuinely new operation. When switching REST and MCP for a retry, preserve the same value.
+
+`idempotency_conflict` means an identifier was reused with different input. `idempotency_in_progress` means an earlier request is still being handled. Honor `Retry-After` when present; do not create another job to work around either response.
+
+A timeout or connection loss does not prove the server rejected the request. Keep a durable mapping from your local task to its mutation identifier and returned job ID.

@@ -1,0 +1,25 @@
+---
+title: "G Maps Crawl documentation"
+description: "Search Google Maps businesses, follow durable jobs, and connect AI agents."
+---
+
+Build integrations around a simple workflow: **submit a search → follow its job → read results → export**.
+
+<CardGroup cols={2}>
+  <Card title="Make your first request" icon="terminal" href="/quickstart">A complete cURL walkthrough with authentication, polling, and results.</Card>
+  <Card title="Connect an AI agent" icon="robot" href="/mcp/connect">Configure the hosted MCP server and understand its eight tools.</Card>
+  <Card title="Explore the API" icon="code" href="/api-reference/create-scrape">Interactive reference generated from the public OpenAPI contract.</Card>
+  <Card title="Install an agent skill" icon="wand-magic-sparkles" href="/mcp/agent-skills">An MCP-first workflow with a dependency-free REST fallback.</Card>
+</CardGroup>
+
+## Choose an interface
+
+| Interface | Use it for | Endpoint |
+| --- | --- | --- |
+| REST | Applications, scheduled integrations, and exports | `https://gmapscrawl.com/api/v1` |
+| MCP | Tool use from compatible AI clients | `https://gmapscrawl.com/api/mcp` |
+| Agent skill | Repeatable research instructions with REST fallback | [GitHub](https://github.com/ricciflow-api/gmapscrawl-agent-skills) |
+
+<Note>Start with a test key. Test responses are simulated and consume zero request units. Live access depends on your account, plan, and current capability availability. The published skill currently labels paid API/MCP new-work operations unavailable; do not assume live access from an OpenAPI entry or tool listing. See [availability](/concepts/availability).</Note>
+
+Search records can include business details, contacts, reviews, and photo metadata when available. Missing fields remain null or carry a field state; a successful request does not guarantee every field is populated.

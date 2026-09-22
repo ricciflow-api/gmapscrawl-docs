@@ -1,0 +1,30 @@
+---
+title: "Errors and troubleshooting"
+description: "Recognize transport failures, tool errors, and recoverable requests."
+---
+
+REST errors include `error.code`, `error.message`, `error.details`, `error.retryable`, `request_id`, and `schema_version`. Preserve the request ID when contacting support.
+
+| Error | Action |
+| --- | --- |
+| `unauthorized` | Check that your key is present, valid, and not expired or revoked |
+| `forbidden` | Check scope, API entitlement, and account restrictions |
+| `invalid_request` | Compare your input with the operation schema |
+| `not_found` | Check the resource ID and owning workspace |
+| `idempotency_conflict` | Restore the original body for a retry; use a fresh ID only for new work |
+| `idempotency_in_progress` | Wait before retrying the same mutation |
+| `rate_limited`, `concurrency_limited` | Honor retry guidance and your deadline |
+| `quota_exceeded`, `plan_limit_exceeded` | Check the account's limits |
+| `capability_unavailable` | Stop and check supported capabilities |
+| `job_not_ready` | Continue bounded status polling |
+| `job_already_completed`, `job_canceled` | Inspect the terminal job; don't silently create replacement work |
+
+Other provider or import failures can appear as stable error codes. Only retry when the response marks the failure retryable. Do not infer refund or usage state from an HTTP code alone.
+
+## MCP HTTP 200 with an error
+
+An MCP tool call can return HTTP 200 and `isError: true`. Parse the JSON text in `content` and inspect `error.code`, `retryable`, `retry_after`, and `usage_state`. Authentication and transport failures use HTTP errors instead.
+
+## Connection succeeds but no useful data appears
+
+Check whether the response is a job acknowledgment, a simulated fixture, or an unavailable capability. A successful initialization or tool listing does not run a scrape.

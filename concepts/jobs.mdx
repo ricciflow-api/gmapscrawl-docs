@@ -1,0 +1,23 @@
+---
+title: "Jobs and completeness"
+description: "Follow asynchronous work without losing accepted jobs or overstating results."
+---
+
+A create response acknowledges a durable job. It is not a promise that all source data has been fetched.
+
+| States | What to do |
+| --- | --- |
+| `queued`, `submitting`, `running`, `reconciling`, `finalizing` | Continue bounded polling |
+| `cancel_requested` | Cancellation is pending; inspect status again |
+| `succeeded` | Read the published results and their completeness flag |
+| `partial` | Read available results but report the request as incomplete |
+| `failed` | Inspect `error_code`; do not create replacement work automatically |
+| `canceled` | Stop polling |
+
+`Prefer: wait=N` on REST create requests allows 1–25 seconds of bounded waiting. It does not replace durable status checks. MCP create tools return a job; use `get_scrape_job` next.
+
+A job can remain accepted after your client times out. Preserve its ID and idempotency key. If your deadline expires, return the ID and explain how to resume.
+
+Cancel with `POST /scrapes/{job_id}/cancel` or `cancel_scrape_job`, using a new mutation identifier for the cancellation. Cancellation is a consequential action, not a way to stop local polling. It may be rejected if the job already completed.
+
+See [stored-result pagination](/concepts/pagination) and [idempotency](/concepts/idempotency).

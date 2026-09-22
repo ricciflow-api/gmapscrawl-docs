@@ -1,0 +1,26 @@
+---
+title: "Install the agent skill"
+description: "Give agents a bounded workflow and a tested REST fallback."
+---
+
+Install the `google-maps-data` skill from the public repository:
+
+```bash
+npx skills add ricciflow-api/gmapscrawl-agent-skills
+```
+
+You can also copy `skills/google-maps-data` into the skill directory supported by your client. Read the [repository README](https://github.com/ricciflow-api/gmapscrawl-agent-skills) for the package layout and tests.
+
+The skill prefers a configured G Maps Crawl MCP server. When MCP is unavailable, its Node.js helper reads `GMSCRAPER_API_KEY` from the environment and accepts a bounded JSON request file:
+
+```json
+{"operation":"places.search","input":{"q":"coffee shops in Seattle","page":1},"client_request_id":"gmaps-example-search-20260922","wait_seconds":10}
+```
+
+```bash
+node skills/google-maps-data/scripts/gmapscraper-request.mjs request.json
+```
+
+Use a fresh identifier for new work. The helper performs one API request; it does not silently poll, expand source pages, or export results. Use `jobs.get` and `jobs.results` request documents to continue.
+
+The package includes operation schemas, result semantics, validation tests, and examples. Installing it does not provision an API key or enable unavailable live capabilities.
