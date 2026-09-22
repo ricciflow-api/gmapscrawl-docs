@@ -8,7 +8,15 @@ Webhooks deliver bounded state-change notifications, not scraped rows or signed 
 Use a live API key with `webhooks:manage`. Test keys cannot create, bind, test, or deliver webhooks. Register an HTTPS receiver with `POST /webhook-endpoints`:
 
 ```json
-{"url":"https://hooks.example.com/gmaps","event_types":["scrape.completed","scrape.failed","export.ready"],"description":"Production ingestion"}
+{
+  "url": "https://hooks.example.com/gmaps",
+  "event_types": [
+    "scrape.completed",
+    "scrape.failed",
+    "export.ready"
+  ],
+  "description": "Production ingestion"
+}
 ```
 
 Store the reveal-once `secret` securely. Bind a scrape by supplying the endpoint ID as `input.webhook_endpoint_id`. Endpoint creation alone does not attach it to every job.
@@ -59,7 +67,10 @@ Example body shape:
     "job_id": "job_6efecde29be34f559f26074e5e4f2ee6",
     "operation": "places.search",
     "status": "succeeded",
-    "progress": { "completed_queries": 1, "total_queries": 1 },
+    "progress": {
+      "completed_queries": 1,
+      "total_queries": 1
+    },
     "result_count": 20,
     "error_class": null,
     "version": "2026-09-22T10:00:00.000Z",

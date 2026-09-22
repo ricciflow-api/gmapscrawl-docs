@@ -22,7 +22,24 @@ curl --fail-with-body 'https://gmapscrawl.com/api/v1/scrapes' \
 A live submission normally returns `202`; a test fixture returns `200`. The response contains a job under `data`, not the final list of businesses:
 
 ```json
-{"data":{"id":"job_01K4GMAPSEXAMPLE0000000000","operation":"places.search","status":"queued","created_at":"2026-09-01T10:00:00.000Z","progress":{"completed_queries":0,"total_queries":1},"links":{"self":"/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000","results":"/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000/results"}},"request_id":"req_01K4GMAPSEXAMPLE0000000000","schema_version":"2026-09-22"}
+{
+  "data": {
+    "id": "job_01K4GMAPSEXAMPLE0000000000",
+    "operation": "places.search",
+    "status": "queued",
+    "created_at": "2026-09-01T10:00:00.000Z",
+    "progress": {
+      "completed_queries": 0,
+      "total_queries": 1
+    },
+    "links": {
+      "self": "/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000",
+      "results": "/api/v1/scrapes/job_01K4GMAPSEXAMPLE0000000000/results"
+    }
+  },
+  "request_id": "req_01K4GMAPSEXAMPLE0000000000",
+  "schema_version": "2026-09-22"
+}
 ```
 
 This is an illustrative contract example. Copy the actual `data.id` returned by your request.

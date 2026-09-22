@@ -6,7 +6,16 @@ description: "Choose one query and source page, then interpret normalized busine
 Search uses `places.search` through REST or `search_google_maps` through MCP.
 
 ```json
-{"operation":"places.search","input":{"q":"coffee shops in Seattle","page":1,"hl":"en","gl":"us","extra":false}}
+{
+  "operation": "places.search",
+  "input": {
+    "q": "coffee shops in Seattle",
+    "page": 1,
+    "hl": "en",
+    "gl": "us",
+    "extra": false
+  }
+}
 ```
 
 `q` is required (2–200 characters). `page` defaults to 1 and supports 1–10. `hl` sets the language, `gl` is a two-letter country code, and optional `ll` supplies a center and zoom such as `@47.6062,-122.3321,12z`. `extra` is a boolean. Omit fields you do not need; unknown fields are rejected.

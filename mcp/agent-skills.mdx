@@ -14,7 +14,15 @@ You can also copy `skills/google-maps-data` into the skill directory supported b
 The skill prefers a configured G Maps Crawl MCP server. When MCP is unavailable, its Node.js helper reads `GMSCRAPER_API_KEY` from the environment and accepts a bounded JSON request file:
 
 ```json
-{"operation":"places.search","input":{"q":"coffee shops in Seattle","page":1},"client_request_id":"gmaps-example-search-20260922","wait_seconds":10}
+{
+  "operation": "places.search",
+  "input": {
+    "q": "coffee shops in Seattle",
+    "page": 1
+  },
+  "client_request_id": "gmaps-example-search-20260922",
+  "wait_seconds": 10
+}
 ```
 
 ```bash
