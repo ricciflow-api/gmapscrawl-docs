@@ -1,6 +1,5 @@
 ---
-title: "Create a durable Google Maps scrape"
-openapi: POST /scrapes
+title: "Search API migration"
 ---
 
-<Note>Live access is capability-gated. Test keys return simulated fixtures. Standalone live Reviews and Photos are unavailable. See [availability](/concepts/availability).</Note>
+The API now uses one synchronous [search endpoint](/api-reference/search). Send a flat search body and read up to 20 businesses from the response. New asynchronous jobs, exports, and customer webhooks are retired.

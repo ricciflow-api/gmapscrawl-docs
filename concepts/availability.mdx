@@ -1,19 +1,7 @@
 ---
-title: "Availability and test mode"
-description: "Understand which operations are contracts, fixtures, or live capabilities."
+title: "Availability"
 ---
 
-The OpenAPI reference and MCP tool list describe the interface. They do not guarantee that an account can run every operation.
+Live search depends on your API plan, credential permissions, source availability, and server capacity. A `capability_unavailable` or capacity error means that search could not be admitted. Do not treat tool discovery as proof that a live request succeeded.
 
-As checked on September 22, 2026, the [published agent skill](https://gmapscrawl.com/skills/google-maps-data/SKILL.md) says paid API/MCP new-work operations remain disabled and test-key fixtures are supported. The dashboard now creates live keys from a name-only form; this does not change capability availability. Confirm live access with support before depending on production scraping. Existing test keys remain suitable for simulated integration checks, but the dashboard no longer offers test-key creation.
-
-Standalone review and photo jobs are not currently supported for live use. Business search can include available reviews and photos in its normalized business records. The review and photo tools remain in the contract for test fixtures and compatible clients.
-
-| Response | Meaning | Next step |
-| --- | --- | --- |
-| Simulated usage or `simulated: true` | Fixture data, not a live observation | Label it simulated |
-| `capability_unavailable` | The requested capability is unavailable | Stop; check availability with support |
-| `forbidden` | Account, plan, or scope does not permit the request | Check your key and entitlement |
-| Accepted job | Work may still be running | Poll status, then inspect published results |
-
-[Contact support](https://gmapscrawl.com/contact) for current access. Do not retry an unavailable operation indefinitely or present fixtures as real business data.
+Only business search is offered. Standalone reviews, photos, asynchronous API exports, and customer webhook endpoints are not part of the Search API. The separate Online scraper retains its dashboard jobs and exports.

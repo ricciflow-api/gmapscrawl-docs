@@ -1,14 +1,18 @@
 ---
-title: "Usage and rate limits"
-description: "Understand request units, simulated responses, and bounded retries."
+title: "Pricing and usage"
 ---
 
-For an available live capability, each admitted Search, Reviews, or Photos **source-page request** costs one API request unit, including successful empty pages. Standalone live Reviews and Photos are currently unavailable.
+Each successfully completed live search page uses one API request, including an empty page. Accepted work reserves one unit; failed searches release the reservation. Replays of an identical request do not charge again. Test keys use zero units.
 
-Status reads, stored-result pagination, export creation, and export inspection cost zero request units. Test-key fixtures consume zero units and use simulated usage. Do not equate zero units with unlimited request rate.
+| Plan | Monthly price | Included requests | Additional request |
+| --- | --- | --- | --- |
+| Free | $0 | 20 | Hard cap |
+| Basic | $15 | 1,000 | $0.014 |
+| Professional | $65 | 5,000 | $0.012 |
+| Business | $115 | 10,000 | $0.011 |
+| Scale | $365 | 50,000 | $0.009 |
+| Scale Plus | $799 | 150,000 | $0.006 |
+| Scale Pro | $1,499 | 350,000 | $0.0045 |
+| Scale Max | $2,999 | 800,000 | $0.0035 |
 
-Rate and concurrency limits depend on the account's plan. Read response headers and error details rather than hardcoding an assumed universal limit. On `rate_limited` or `concurrency_limited`, respect `Retry-After`, back off, and stop at your deadline.
-
-MCP success metadata includes `gmapscrawl.com/request_id`, `gmapscrawl.com/schema_version`, `gmapscrawl.com/usage_units`, and `gmapscrawl.com/usage_state`. MCP tool errors include `error.retry_after` and `error.usage_state` in their JSON text.
-
-Quota and plan failures need an account or request change; repeated retries do not fix them. [Check availability](/concepts/availability) before planning live usage.
+Every plan returns up to 20 businesses per request. Allowances reset each monthly billing period. Online and Extension subscriptions are separate. [Current pricing](https://gmapscrawl.com/pricing?tab=api).

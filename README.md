@@ -9,6 +9,6 @@ npm test
 npx mint dev
 ```
 
-`docs.json` controls navigation. `openapi.json` is a checked-in snapshot of https://gmapscrawl.com/api/v1/openapi.json, retrieved September 22, 2026. Review contract changes before replacing it. Deploy `main` from this repository using Mintlify.
+`docs.json` controls navigation. `openapi.json` is a checked-in snapshot of https://gmapscrawl.com/api/v1/openapi.json, generated from the Search API contract on September 30, 2026. Review contract changes before replacing it. Deploy `main` from this repository using Mintlify.
 
 Related: [MCP](https://github.com/ricciflow-api/gmapscrawl-mcp) · [Agent skills](https://github.com/ricciflow-api/gmapscrawl-agent-skills).

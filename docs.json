@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "almond",
   "name": "G Maps Crawl",
-  "description": "G Maps Crawl API, MCP, and agent skill documentation. Search businesses, follow jobs, retrieve results, export data, and receive webhook notifications.",
+  "description": "Synchronous Google Maps business search: up to 20 businesses per request through REST, MCP, and agent skills.",
   "colors": {
     "primary": "#027B8B",
     "light": "#34ACBC",
@@ -45,7 +45,6 @@
           {
             "group": "Core concepts",
             "pages": [
-              "concepts/jobs",
               "concepts/pagination",
               "concepts/idempotency",
               "concepts/usage",
@@ -55,9 +54,7 @@
           {
             "group": "Workflows",
             "pages": [
-              "guides/search",
-              "guides/exports",
-              "guides/webhooks"
+              "guides/search"
             ]
           }
         ]
@@ -69,19 +66,7 @@
           {
             "group": "REST endpoints",
             "pages": [
-              "api-reference/create-scrape",
-              "api-reference/get-job",
-              "api-reference/get-results",
-              "api-reference/create-export",
-              "api-reference/get-export",
-              "api-reference/cancel-job",
-              "api-reference/list-webhook-endpoints",
-              "api-reference/create-webhook",
-              "api-reference/update-webhook-endpoint",
-              "api-reference/delete-webhook-endpoint",
-              "api-reference/rotate-webhook-endpoint-secret",
-              "api-reference/test-webhook-endpoint",
-              "api-reference/list-webhook-deliveries"
+              "api-reference/search"
             ]
           }
         ]
