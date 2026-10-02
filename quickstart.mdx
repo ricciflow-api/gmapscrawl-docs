@@ -13,3 +13,5 @@ curl https://gmapscrawl.com/api/v1/search \
 ```
 
 Read `data.businesses` from the same response. `data.total` is between 0 and 20 and `data.params` echoes the normalized search. The envelope includes `request_id` and `schema_version`. No job polling or webhook setup. Allow up to 180 seconds for your client timeout. Most cached searches finish sooner; source availability and enrichment affect latency.
+
+For enriched results, send `extra: true`. Maps details may have been observed up to 730 days earlier; inspect `place.observedAt`. See [data freshness](/concepts/freshness).

@@ -79,7 +79,7 @@ Call `search_google_maps` with flat arguments:
 }
 ```
 
-Use a fresh mutation identifier in real work, preserving it for retries. Read up to 20 businesses directly from structuredContent.businesses.
+Use a new mutation identifier for a new search, preserving it and the arguments for retries. Read up to 20 businesses directly from structuredContent.businesses. Check the returned observation timestamps as described in [data freshness](/concepts/freshness).
 
 <Note>Use a key from the [API keys page](https://gmapscrawl.com/dashboard/api-keys); enter a name to create one, then copy it into your secret environment. New keys are live keys and requests use your API allowance. If you already have a test key, its results are simulated. A tool listing does not establish live access; check [availability](/concepts/availability).</Note>
 

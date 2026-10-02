@@ -5,3 +5,5 @@ title: "Search tool"
 The server exposes one tool: `search_google_maps`. It accepts q, page, ll, hl, gl, extra, and a required `client_request_id`. Search uses the `scrapes:write` scope and one request unit per successful live page.
 
 Results are returned directly in `structuredContent`: `total`, `params`, and up to 20 `businesses`. No follow-up status or results tool is needed. Preserve client_request_id and arguments on retries. Check isError and label simulated responses.
+
+Enriched searches may reuse Maps details observed up to 730 days earlier; read `place.observedAt` and the contact timestamps. Query responses may be reused for 24 hours and website contact checks for 7 days. See [data freshness](/concepts/freshness).

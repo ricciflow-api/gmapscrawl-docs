@@ -46,6 +46,7 @@
             "group": "Core concepts",
             "pages": [
               "concepts/pagination",
+              "concepts/freshness",
               "concepts/idempotency",
               "concepts/usage",
               "concepts/errors"

@@ -1,0 +1,16 @@
+---
+title: "Data freshness"
+description: "Understand reused search results, Maps details, and contact observation timestamps."
+---
+
+Searches reuse previously observed data to reduce response time. A response received now can contain business information observed earlier. Read the observation timestamps when freshness matters.
+
+| Data | Reuse window | Timestamp to inspect |
+| --- | --- | --- |
+| Completed query response | Up to 24 hours; 1 hour for an empty result | Each business's observation timestamps |
+| Google Maps details in enriched searches | Up to 730 days | `businesses[].place.observedAt` |
+| Website email and social enrichment | Up to 7 days | `businesses[].place.contactsCheckedAt` and each contact's `observedAt` |
+
+These are separate windows: an expired query response can still use an eligible Maps detail record or recent contact check. Reusing Maps details preserves their original `place.observedAt`; a newer website contact check does not make the Maps details newly observed. Google Maps itself and business websites may also contain outdated information.
+
+These reuse rules apply automatically. Use the observation timestamps to decide whether a record is recent enough for your task, especially for fields that can change frequently, such as opening hours, ratings, or phone numbers. Missing fields remain null or empty as appropriate.
