@@ -15,6 +15,6 @@ Related: [MCP](https://github.com/ricciflow-api/gmapscrawl-mcp) · [Agent skills
 
 ## Hosting
 
-The Mintlify deployment `gmapscrawl` uses the public address `gmapscrawl.com/docs` and the `/docs` base path. The website proxies `/docs`, `/_mintlify`, `/mintlify-assets`, and `/api/request` to `gmapscrawl.mintlify.site`; keep these rules when deploying the website. Documentation pages, Markdown exports, the OpenAPI file, and LLM indexes remain under `/docs`.
+The public documentation is available at https://gmapscrawl.com/docs. Mintlify hosts the documentation through the website's `/docs` route; edits continue to deploy from `main` in this repository.
 
-The previous `docs.gmapscrawl.com` hostname permanently redirects to the matching `/docs` path through Cloudflare, preserving query strings. The main site's robots file advertises both the website and documentation sitemaps.
+The previous `docs.gmapscrawl.com` address permanently redirects to the matching new page, preserving query strings. The main site's robots file advertises the documentation sitemap.
